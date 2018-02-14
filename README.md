@@ -1,13 +1,13 @@
-# createjs.form
+## createJS Form Elements
 Add interactive Form Elements for CreateJS and AnimateCC projects
 
-# Work in progress...
+## Work in progress...
 The work isn't finished yet. Watch it for update progress!
 
-# Example / Demo
+## Example / Demo
 https://jhintringer.github.io/createjs.form/
 
-# Quickstart / How-to
+## Quickstart / How-to
 Include the *createjs.form.js* File after createjs and before any createjs scripts.
 
 Then just use the **TextInput** constructor for the Textfields instead of **Text**
@@ -21,3 +21,8 @@ Optionally you can define a **placeholder color** or a **selection color** as fo
 ``
 	this.input = new createjs.TextInput("Placeholder...", "26px 'Arial'", "#990000", "#CCCCCC", "#EFA40C");
 ``
+
+## License
+
+[MIT License](https://opensource.org/licenses/MIT) 
+([https://opensource.org/licenses/MIT](https://opensource.org/licenses/MIT))
