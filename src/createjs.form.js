@@ -53,10 +53,12 @@ function TextInput(placeholder, font, color, placeholderColor, selectionColor) {
 	var createEventListener = function() {
 
 		that.on('mousedown', function(e) {
-			e.preventDefault();
-			e.nativeEvent.preventDefault();
-			e.stopPropagation();
-			e.nativeEvent.stopPropagation();
+			try {
+				e.preventDefault();
+				e.nativeEvent.preventDefault();
+				e.stopPropagation();
+				e.nativeEvent.stopPropagation();
+			} catch(e) {}
 			if(that.focused===false) {
 				createInput();
 				focus();
@@ -72,13 +74,12 @@ function TextInput(placeholder, font, color, placeholderColor, selectionColor) {
 			}
 		});
 		that.on('dblclick', function(e) {
-			e.nativeEvent.stopPropagation();
+			try { e.nativeEvent.stopPropagation(); } catch(e) {}
 			that.input.selectionDirection = 'backward';
 			that.input.selectionStart = 0;
 			that.input.selectionEnd = that.input.value.length;
 			update();
 		});
-
 
 	};
 
@@ -139,10 +140,9 @@ function TextInput(placeholder, font, color, placeholderColor, selectionColor) {
 		if(that.input !== null) return that.input;
 
 		that.input = document.createElement('input');
-		that.input.style.position = 'absolute';
+		that.input.style.position = 'fixed';
 		that.input.style.zIndex = '-100';
 		that.input.style.opacity = '0';
-		that.input.style.width = '0';
 		that.input.style.top = (-100 - that.input.offsetHeight)+'px';
 		that.input.value = that.value;
 
@@ -163,8 +163,23 @@ function TextInput(placeholder, font, color, placeholderColor, selectionColor) {
 			}
 		}, false);
 
-		that.input.addEventListener('keyup', function() { update(); });
-		that.input.addEventListener('keydown', function() { update(); });
+		that.input.addEventListener('keyup', function(e) { update(); });
+		that.input.addEventListener('keydown', function(e) { update();
+			if(e.which===9) { // Tab
+				e.preventDefault();
+				e.stopPropagation();
+				for(var i=0; i<createjs._inputFields.length; i++) {
+					if(createjs._inputFields[i] === that) {
+						var next = (e.shiftKey===true?i+1:i-1);
+						if(createjs._inputFields.length===next) next = 0;
+						else if(next===-1) next = createjs._inputFields.length -1;
+						createjs._inputFields[next].dispatchEvent(new createjs.Event('mousedown'));
+						createjs._inputFields[next].dispatchEvent(new createjs.Event('dblclick'));
+						break;
+					}
+				}
+			}
+		});
 
 	};
 	var deleteInput = function() {
@@ -220,8 +235,7 @@ function TextInput(placeholder, font, color, placeholderColor, selectionColor) {
 		that.selectionColor = (typeof selectionColor === 'undefined' || selectionColor === null ? '#EEEEEE' : selectionColor);
 		that.value = '';
 		that.cursorWidth = 2;
-
-
+		
 		createFields(font);
 		createEventListener();
 
@@ -230,9 +244,13 @@ function TextInput(placeholder, font, color, placeholderColor, selectionColor) {
 		that.focused = false;
 		that.init = that.on('tick', init);
 		that.on('tick', function() { tick() });
+
 	};
 
 	constructor();
+
+	if(typeof createjs._inputFields==='undefined') createjs._inputFields = [];
+	createjs._inputFields.push(that);
 
 	return that;
 

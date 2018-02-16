@@ -208,15 +208,15 @@ p.nominalBounds = new cjs.Rectangle(-202.5,-18.4,405,36.9);
 	this.inputbox3.parent = this;
 	this.inputbox3.setTransform(-0.5,37.7,1,1,0,0,0,0.5,2.2);
 
-	this.inputbox1 = new lib.input2();
-	this.inputbox1.name = "inputbox1";
-	this.inputbox1.parent = this;
-	this.inputbox1.setTransform(-0.5,-69.2,1,1,0,0,0,0.5,2.2);
-
 	this.inputbox2 = new lib.input1();
 	this.inputbox2.name = "inputbox2";
 	this.inputbox2.parent = this;
 	this.inputbox2.setTransform(-3,-21.9);
+
+	this.inputbox1 = new lib.input2();
+	this.inputbox1.name = "inputbox1";
+	this.inputbox1.parent = this;
+	this.inputbox1.setTransform(-0.5,-69.2,1,1,0,0,0,0.5,2.2);
 
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.inputbox2},{t:this.inputbox1},{t:this.inputbox3},{t:this.inputbox4},{t:this.inputbox5}]}).wait(1));
 
