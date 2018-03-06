@@ -34,7 +34,7 @@ Then just use the **Checkbox** constructor for the Textfields instead of **Text*
 Optionally you can define a **checked background color**, **checked icon color** or a **unchecked background color** as forth, fifth and sixth argument:
 
 ``
-	this.checkbox = new createjs.Checkbox("Placeholder...", "26px 'Arial'", "#000000", "#009900", "#FFFFFF", "#CCCCCC");
+	this.checkbox = new createjs.Checkbox("Labeltext", "26px 'Arial'", "#000000", "#009900", "#FFFFFF", "#CCCCCC");
 ``
 
 
