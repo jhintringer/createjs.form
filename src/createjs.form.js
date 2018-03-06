@@ -235,7 +235,7 @@ function TextInput(placeholder, font, color, placeholderColor, selectionColor) {
 		that.selectionColor = (typeof selectionColor === 'undefined' || selectionColor === null ? '#EEEEEE' : selectionColor);
 		that.value = '';
 		that.cursorWidth = 2;
-		
+
 		createFields(font);
 		createEventListener();
 
@@ -256,3 +256,125 @@ function TextInput(placeholder, font, color, placeholderColor, selectionColor) {
 
 }
 createjs.TextInput = TextInput;
+
+function Checkbox(label, font, color, checkedBackgroundColor, checkedIconColor, uncheckedBackgroundColor) {
+
+	var that = new createjs.Container();
+
+	var createFields = function(font) {
+
+		var firefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+		if (firefox && createjs)
+		{
+			createjs.Text.prototype._drawTextLine = function(ctx, text, y)
+			{
+				// Adjust text position only if textBaseline is "top"
+				if (this.textBaseline === "top")
+				{
+					var lineHeight = this.lineHeight || this.getMeasuredLineHeight();
+					y += lineHeight * 0.1;
+				}
+				// Chrome 17 will fail to draw the text if the last param is included but null, so we feed it a large value instead:
+				if (this.outline) { ctx.strokeText(text, 0, y, this.maxWidth||0xFFFF); }
+				else { ctx.fillText(text, 0, y, this.maxWidth||0xFFFF); }
+			};
+		}
+
+		that.textField = new createjs.Text(that.text, font, that.color);
+		that.textField.lineWidth = 99999999;
+		that.textField.x = that.height + that.height/3;
+		that.textField.parent = that;
+		that.addChild(that.textField);
+
+		that.checkBox = new createjs.Shape();
+		that.checkBox.graphics
+		.beginFill(that.uncheckedBackgroundColor)
+		.drawRect(0, 0, that.height, that.height)
+		.setStrokeStyle(that.height/20)
+		.beginStroke(that.color)
+		.drawRect(0,0,that.height, that.height);
+		that.checkBox.x = 0;
+		that.checkBox.y = 0;
+		that.checkBox.name = 'checkBox';
+		that.addChild(that.checkBox);
+
+		that.checkBoxChecked = new createjs.Container();
+		that.checkBoxChecked.visible = false;
+		that.addChild(that.checkBoxChecked);
+
+		that.checkedBg = new createjs.Shape();
+		that.checkedBg.graphics
+		.beginFill(that.checkedBackgroundColor)
+		.drawRect(0-(that.height/20)/2, (0-that.height/20)/2, that.height+(that.height/20), that.height+(that.height/20));
+		that.checkedBg.x = 0;
+		that.checkedBg.y = 0;
+		that.checkedBg.name = 'checkedBg';
+		that.checkBoxChecked.addChild(that.checkedBg);
+
+		that.checkedIcon = new createjs.Shape();
+		that.checkedIcon.graphics
+		.setStrokeStyle(that.height/5)
+		.beginStroke(that.checkedIconColor)
+		.moveTo((15 * that.height)/100, (55 * that.height)/100)
+		.lineTo((40 * that.height)/100, (70 * that.height)/100)
+		.lineTo((80 * that.height)/100, (15 * that.height)/100)
+		;
+		that.checkedIcon.x = 0;
+		that.checkedIcon.y = 0;
+		that.checkedIcon.name = 'checkIcon';
+		that.checkBoxChecked.addChild(that.checkedIcon);
+	};
+
+	var createEventListener = function() {
+
+		that.on('click', function(e) {
+			that.checked = !that.checked;
+			update();
+			that.dispatchEvent(new createjs.Event('change'));
+		});
+
+	};
+	
+	var update = function() {
+		that.checkBoxChecked.visible = that.checked;
+	};
+
+	var init = function() {
+		that.off('tick', that.init);
+
+		that.stage.enableMouseOver();
+
+		that.height = that.lineHeight;
+		that.width = that.lineWidth;
+
+		createFields(font);
+		createEventListener();
+
+		var hit = new createjs.Shape();
+		hit.graphics.beginFill("#000").drawRect(0, 0, that.width, that.height);
+		that.hitArea = hit;
+
+	};
+
+	var constructor = function() {
+		that.text = label;
+		that.color = color;
+		that.checkedBackgroundColor = (typeof checkedBackgroundColor === 'undefined' || checkedBackgroundColor === null ? '#494949' : checkedBackgroundColor);
+		that.checkedIconColor = (typeof checkedIconColor === 'undefined' || checkedIconColor === null ? '#f3f3f3' : checkedIconColor);
+		that.uncheckedBackgroundColor = (typeof uncheckedBackgroundColor === 'undefined' || uncheckedBackgroundColor === null ? '#f3f3f3' : uncheckedBackgroundColor);
+		that.checked = false;
+		that.cursor = "pointer";
+
+		that.init = that.on('tick', init);
+
+	};
+
+	constructor();
+
+	if(typeof createjs._inputFields==='undefined') createjs._inputFields = [];
+	createjs._inputFields.push(that);
+
+	return that;
+
+}
+createjs.Checkbox = Checkbox;
