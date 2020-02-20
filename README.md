@@ -5,7 +5,7 @@ Add interactive Form Elements for CreateJS and AnimateCC projects
 The work isn't finished yet. Watch it for update progress!
 
 ## Example / Demo
-https://jhintringer.github.io/createjs.form/
+https://jhintringer.github.io/createjs.form/example/example.html
 
 ## How-To initialize
 Create TextFields like a normal Text, but set a **prefix** to the name of the textfield.
@@ -23,14 +23,14 @@ After that initialize them one by one using the
 	createjs.Form.autoDetect(root.path.to.textelement);
 ``
 
-Or simple detect all of them with one line:
+Or simple detect **all of them** with one line:
 
 ``
 	createjs.Form.autoDetectAll(root);
 ``
 
 ## How-To Use
-All form elements found are collected in createjs.Form.elements using the name without prefix as key. So you can access the form element by calling:
+All form elements found are collected in createjs.Form.elements using the name **without prefix** as **key**. So you can access the form element by calling:
 
 ``
 	createjs.Form.elements.email
