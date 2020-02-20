@@ -7,40 +7,39 @@ The work isn't finished yet. Watch it for update progress!
 ## Example / Demo
 https://jhintringer.github.io/createjs.form/
 
-## How-To: Input
-Include the *createjs.form.js* File after createjs and before any createjs calls.
+## How-To initialize
+Create TextFields like a normal Text, but set a **prefix** to the name of the textfield.
 
-Then just use the **TextInput** constructor for the Textfields instead of **Text**
+Possible Prefixes are... (to be continued)
+	
+- input_
+- checkbox_
+- select_
 
-``
-	this.input = new createjs.TextInput("Placeholder...", "26px 'Arial'", "#000000");
-``
 
-Optionally you can define a **placeholder color** or a **selection color** as forth and fifth argument:
-
-``
-	this.input = new createjs.TextInput("Placeholder...", "26px 'Arial'", "#000000", "#CCCCCC", "#EFA40C");
-``
-
-## How-To: Checkbox
-Include the *createjs.form.js* File after createjs and before any createjs calls.
-
-Then just use the **Checkbox** constructor for the Textfields instead of **Text**
+After that initialize them one by one using the 
 
 ``
-	this.checkbox = new createjs.Checkbox("Labeltext", "26px 'Arial'", "#000000");
+	createjs.Form.autoDetect(root.path.to.textelement);
 ``
 
-Optionally you can define a **checked background color**, **checked icon color** or a **unchecked background color** as forth, fifth and sixth argument:
+Or simple detect all of them with one line:
 
 ``
-	this.checkbox = new createjs.Checkbox("Labeltext", "26px 'Arial'", "#000000", "#009900", "#FFFFFF", "#CCCCCC");
+	createjs.Form.autoDetectAll(root);
+``
+
+## How-To Use
+All form elements found are collected in createjs.Form.elements using the name without prefix as key. So you can access the form element by calling:
+
+``
+	createjs.Form.elements.email
 ``
 
 
 ## Dependencies
 
-> EaselJS v0.8.2 (December 2015)
+> EaselJS v1.0.0 (September 2017)
 
 ## License
 
