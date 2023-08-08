@@ -727,7 +727,9 @@
         el.parts.arrow_bg.graphics.lf(["#FFFFFF","#EDEDED"],[0,1],-45,0,9,0).s().p("AnBEOIAAobIODAAIAAIbg");
         el.container.addChild(el.parts.arrow_bg);
         var scale = 90/54;
-        el.parts.arrow_bg.setTransform(el.width - 57,el.height/2, (((el.height*100)/45)*scale)/100, ((el.height*100)/45)/100);
+        scale = (((el.height*100)/45)*scale)/100;
+        var w = scale * 90;
+        el.parts.arrow_bg.setTransform(el.width - w/2,el.height/2, scale, (((el.height-6)*100)/45)/100);
 	    el.parts.arrow_down = new cjs.Shape();
 	    el.parts.arrow_down.graphics.f().s("#333333").ss(3,1,1,3,false).p("AAAAiIBMhIAhLghIBLBI");
         el.container.addChild(el.parts.arrow_down);
